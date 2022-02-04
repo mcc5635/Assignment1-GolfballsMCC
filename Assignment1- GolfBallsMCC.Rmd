@@ -1,0 +1,81 @@
+---
+title: "Assignment 1 - GOLF BALLS"
+author: "Michael Chase"
+date: "2/3/2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+    Introduction 
+                                            
+        The Monte Carlo Simulation is a massive random simulation to derive empirical approximation to an object of interest. More specifically, it describes the probability of an event, A, [i.e., P(A)] as the proportion of simulations in which the event of interest occurs [“empirical estimate” of probability]. Along with this, it calculates the expected value of a random variable by the average value it takes over a number of simulations. Monte Carlo manages to predict likelihood of schedule and cost overruns while quantifying risks to determine potential impacts of an unknown variable or event. The process also indicates severity of variation in a dataset. After doing this, Monte Carlo is able to provide objective data for decision making. This statistical process can be used in nearly every economic sector as a multiple probability simulation to solve a variety of large-scale problems an organization has. Along with this, Monte Carlo simulation has the ability to mitigate major risk by predicting the outcome of a variable intervention several thousand times over. In this project, the Monte Carlo technique was used to produce a random simulation of 486 upwards of 10,000 times.
+      
+      In this situation, we were given four types of golf balls on a golf course labeled in values 1-4 totaling up to 500 total. However, 14 are excluded from this data set due to mislabeling practices leaving only 486 remaining. Following this, we conducted a Monte Carlo simulation to access if the remaining golf balls in the data sets were uniformly distributed between 1 and 4. After the simulation, we used several test statistics such as standard deviation, max, min, and chi-square statistic with the p-value to either reject or fail to reject the null hypothesis. By identifying the statistical significance of the p-value and by analyzing the four histograms of the test statistics, we could then decide the validity of the hypothesis. 
+      
+      For this statistical process, we set the null hypothesis to be that golf ball datasets are uniformly distributed between 1 and 4. However, we set the alternative hypothesis to be where the golf ball datasets are not uniformly distributed between 1 and 4. A hypothesis test is crucial to access the credibility of a hypothesis by using sample data of the 486 golf balls from the golf balls labeled 1-4. To accomplish this, we used the test statistics of standard deviation, chi square statistics, max and min. 
+
+    Methods 
+                                              
+      For our Monte Carlo Simulation, we decided to use several test-statistics in our analysis of this dataset including the standard deviation, the chi-square statistic, the maximum, and the minimum. To accomplish our investigation, we identified the number of golf balls (486) and set the sample out of 1000 using the NumberofSamples function. Following this, we conducted the Monte Carlo stimulation 10,000 times using the nsim function. After this step, we created a simulated dataset of the same size of the previous one, with 486 golfballs ranging from types 1-4. In order to show descriptive statistics of the golfballs data set using the four test statistics, we created four different orange histograms labeled appropriately that can be found in the results section.
+      
+
+        A test statistic can be shown to provide statistical significant results depending on the hypothesis being tested. In our Monte Carlo Simulation scenario, standard deviation, chi-square statistic, min and max are the most relevant test statitics. Standard devation provides an accurate measure of spread that helps reveal if our hypothesis is true that the golf ball dataset is normally distributed between 1 and 4. The chi-squre test statistic is important since it measures the observed vs expected outcome (s) for the 10,000 monte carlo simulations that were conducted. For our analysis, outputs of the four test statistics were summarized in the table below. In the table, we can conclude that the Sd=9.74, Maximum=132.0, Minimum=110.3, and Chi-Sq=2.35. Histograms of the four test statistics describing the 486 simulated golf-balls were later created for data visualization purposes. Following this, we obtained the p-value by conducting a two-way t-test to determine its statistical signficicance. According to the Shapiro-Wilk normality test conducted, p=0.1902, where p>0.05, there is not sufficient evidence in this scenario to reject the null hypothesis that the numbers on the ball are uniformly distributed.
+        
+    Results
+                                              
+        For this statistical test we set the null hypothesis to be that golf ball datasets are uniformly distributed between 1 and 4. This indicates that the alternative hypothesis would be that golf ball datasets are not uniformly distributed between 1 and 4. A hypothesis test is crucial to access the credibility of a hypothesis by using sample data of the 486 golf balls from the golf balls labeled 1-4. To examine its validity, we used the test statistics of standard deviation, the chi square statistic, max, min, and the Shapiro-Wilk normality test. 
+        Following creation of the simulation and analysis of the four test statistics, we obtained the p-value by conducting a Shapiro-Wilk test to determine its statistical signficicance. According to the Shapiro-Wilk normality test conducted, since p=0.1902, where p>0.05, there is not sufficient evidence in this scenario to reject the null hypothesis that the numbers on the ball are uniformly distributed.
+          
+                        Sd                Max              Min              Chi-sq          
+                Min.   : 0.5774   Min.   :122.0   Min.   : 83.0   Min.   : 0.00823  
+                1st Qu.: 7.0475   1st Qu.:129.0   1st Qu.:107.0   1st Qu.: 1.22634  
+                Median : 9.7468   Median :132.0   Median :111.0   Median : 2.34568  
+                Mean   :10.1295   Mean   :132.9   Mean   :110.3   Mean   : 2.97858  
+                3rd Qu.:12.7932   3rd Qu.:136.0   3rd Qu.:114.0   3rd Qu.: 4.04115  
+                Max.   :28.6182   Max.   :161.0   Max.   :121.0   Max.   :20.22222 
+
+
+                Shapiro-Wilk normality test
+                
+                  data:  gb_table
+                W = 0.8382, p-value = 0.1902
+
+    ## Source Code
+
+    NumberofGolfBalls<-486
+    NumberofSamples<-1000
+    HighestNumberSeen<-4
+
+    ## Test Statistics chosen in this study
+      ### Standard Deviation (sd), Maximum (max), Minimum (min), Chi-square (chisq).
+
+    nsim <- 10000
+    set.seed(2022)
+
+    test_stat <- matrix(ncol = 4, nrow = nsim)
+    names(test_stat) <- c("sd", "max", "min", "chisq")
+    for (i in seq_len(nsim)) {
+    size <- 486
+    golfballs <- sample(1:4, size, replace = TRUE)
+    gb_table <- table(golfballs)
+    test_stat[i, 1] <- sd(gb_table)
+    test_stat[i, 2] <- max(gb_table)
+    test_stat[i, 3] <- min(gb_table)
+    test_stat[i, 4] <- as.numeric(chisq.test(gb_table)$statistic)
+    }
+    apply(test_stat, 2, hist, col = "orange", main="Test Statistics")
+
+
+    summary(test_stat)
+
+    shapiro.test(gb_table)
+
+```{r , echo=FALSE}
+```
+
+    Conclusion
+                                            
+          After the Monte Carlo randomization simulation was conducted and test statistics were analyzed, there was much to take away from this experiment. Starting off, there was not sufficient evidence in this scenario to reject the null hypothesis that the numbers on the ball are uniformly distributed since the p-value was found to be less than 0.05 at p=0.1902. Along with this, we determined that the values fell within a range of ~111 (min) to ~132 with a median sd of ~10.0 after analysis. If we knew what the sampling distribution of the test statistics were prior to this experiment, then we would choose to exclude a few due to their lack of normality. However, if sampling distribution was unknown, simulatin could help us reveal them to provide better insight into the statistical significance of the data itself. 
+
+\`\`\`
